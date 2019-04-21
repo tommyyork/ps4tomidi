@@ -1,5 +1,4 @@
 import asyncio
-from pprint import pprint
 
 import pygame
 
@@ -13,12 +12,12 @@ bsp = BeatStepPro.BeatStepPro()
 def handle_ps4_events():
     while True:
         event = pygame.event.wait()
+
         axis_change = False
+
         button_change = False
         button_to_change = 0
-        on = False
-
-        # pprint(event)
+        button_on = False
 
         if event.type == pygame.JOYAXISMOTION and ps4.axis_data[event.axis] != round(event.value, 2):
             ps4.axis_data[event.axis] = round(event.value, 2)
@@ -27,18 +26,15 @@ def handle_ps4_events():
             ps4.button_data[event.button] = True
             button_to_change = event.button
             button_change = True
-            on = True
+            button_on = True
         elif event.type == pygame.JOYBUTTONUP and ps4.button_data[event.button] is True:
             ps4.button_data[event.button] = False
             button_to_change = event.button
             button_change = True
-            on = False
+            button_on = False
         # elif event.type == pygame.JOYHATMOTION and ps4.hat_data != event.value:
         #     ps4.hat_data[event.hat] = event.value
         #     hat_change = True
-
-        # pprint(ps4.hat_data[0])
-        pprint(ps4.button_data)
 
         if axis_change is True:
             x1 = max(round(64 + (ps4.axis_data[0] * 63.5)), 1) - 1
@@ -48,7 +44,7 @@ def handle_ps4_events():
 
             bsp.update_axis_output({0: x1, 1: y1, 2: x2, 3: y2})
         elif button_change is True:
-            bsp.send_gate_output(button_to_change, on)
+            bsp.send_gate_output(button_to_change, button_on)
 
         asyncio.get_event_loop().stop()
 
