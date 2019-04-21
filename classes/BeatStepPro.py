@@ -14,15 +14,10 @@ class BeatStepPro(object):
         )
 
     def update_axis_output(self, axes):
-        #
-        # pprint(self.axis_data)
-        # pprint(axes)
-
         channel_a_note_on = [0x90, axes[0], axes[1]]
         channel_b_note_on = [0x91, axes[2], axes[3]]
         self.midiout.send_message(channel_a_note_on)
         self.midiout.send_message(channel_b_note_on)
-        print('sending CV/Velocity on channels A/B: ', channel_a_note_on, channel_b_note_on)
 
         time.sleep(.01)
 
@@ -32,20 +27,19 @@ class BeatStepPro(object):
         self.midiout.send_message(channel_a_note_off)
         self.midiout.send_message(channel_b_note_off)
 
-    def send_gate_output(self, joypad):
-        if joypad[0] == (-1, 0):
+    def send_gate_output(self, buttons):
+        if buttons[4] is True:
             note = 36
-        elif joypad[0] == (0, -1):
+        elif buttons[6] is True:
             note = 37
-        elif joypad[0] == (1, 0):
+        elif buttons[5] is True:
             note = 38
-        elif joypad[0] == (0, 1):
+        elif buttons[7] is True:
             note = 39
         else:
             note = 0
 
         gate_channel_note_on = [0x92, note, 64]
-        print('sending gate message', gate_channel_note_on)
         self.midiout.send_message(gate_channel_note_on)
 
         time.sleep(0.01)
