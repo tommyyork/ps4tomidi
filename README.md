@@ -1,0 +1,16 @@
+# ps4tomidi
+PS4 controller interface to send control voltage through a midi2cv adapter
+
+Currently set up to send pitch/velocity CV on channels 1 and 2 for the left and righthand joysticks of a PS4 controller. This gives you unipolar CV on a BeatStepPro, or perhaps bipolar CV on a midi2cv controller that supports bipolar standards (-5v to 5v volt/octave).
+
+Should be able to `pip install` then just `python demo.py`. It'll ask you what midi interface to use, then you can go from there.
+
+Inspired by + incorporated some work from this cool Euclidean Rhythm / BeatStepPro project by [OctoEuclid](https://github.com/rupa/octoeuclid) and this Python / PS4 controller [class](https://gist.github.com/claymcleod/028386b860b75e4f5472) from [claymcleod](https://gist.github.com/claymcleod).
+
+### to-do
+- use a real event loop (using `asyncio`)
+- debounce minor joystick jitter events (to prevent flooding the midi queue - which can actually cause issues such that you need to hard reset the BSP)
+- allow for custom channel selection for both cv/vel/gate outputs and the eight gates
+- assign controller keys to 8 gates
+- create customizable mapping for buttons/gates
+
