@@ -13,26 +13,34 @@ bsp = BeatStepPro.BeatStepPro()
 def handle_ps4_events():
     while True:
         event = pygame.event.wait()
+        axis_change = False
+        hat_change = False
 
-        if event.type == pygame.JOYAXISMOTION:
+        # pprint(event)
+
+        if event.type == pygame.JOYAXISMOTION and ps4.axis_data[event.axis] != round(event.value, 2):
             ps4.axis_data[event.axis] = round(event.value, 2)
-        elif event.type == pygame.JOYBUTTONDOWN:
-            ps4.button_data[event.button] = True
-        elif event.type == pygame.JOYBUTTONUP:
-            ps4.button_data[event.button] = False
-        elif event.type == pygame.JOYHATMOTION:
+            axis_change = True
+        # elif event.type == pygame.JOYBUTTONDOWN & ps4.button_data[event.button] is False:
+        #     ps4.button_data[event.button] = True
+        # elif event.type == pygame.JOYBUTTONUP & ps4.button_data[event.button] is True:
+        #     ps4.button_data[event.button] = False
+        elif event.type == pygame.JOYHATMOTION and ps4.hat_data != event.value:
             ps4.hat_data[event.hat] = event.value
+            hat_change = True
 
-        pprint(ps4.hat_data)
-        pprint(ps4.button_data)
+        # pprint(ps4.hat_data[0])
+        # pprint(ps4.button_data)
 
-        x1 = max(round(64 + (ps4.axis_data[0] * 63.5)), 1) - 1
-        y1 = max(round(64 + (-ps4.axis_data[1] * 63.5)), 1) - 1
-        x2 = max(round(64 + (ps4.axis_data[2] * 63.5)), 1) - 1
-        y2 = max(round(64 + (-ps4.axis_data[3] * 63.5)), 1) - 1
+        if axis_change is True:
+            x1 = max(round(64 + (ps4.axis_data[0] * 63.5)), 1) - 1
+            y1 = max(round(64 + (-ps4.axis_data[1] * 63.5)), 1) - 1
+            x2 = max(round(64 + (ps4.axis_data[2] * 63.5)), 1) - 1
+            y2 = max(round(64 + (-ps4.axis_data[3] * 63.5)), 1) - 1
 
-        bsp.update_axis_output({0: x1, 1: y1, 2: x2, 3: y2})
-        bsp.send_gate_output(ps4.hat_data)
+            bsp.update_axis_output({0: x1, 1: y1, 2: x2, 3: y2})
+        elif hat_change is True:
+            bsp.send_gate_output(ps4.hat_data)
 
         asyncio.get_event_loop().stop()
 
