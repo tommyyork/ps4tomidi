@@ -1,4 +1,5 @@
 import asyncio
+from pprint import pprint
 
 import pygame
 
@@ -22,19 +23,16 @@ def handle_ps4_events():
         elif event.type == pygame.JOYHATMOTION:
             ps4.hat_data[event.hat] = event.value
 
-            # if ps4.hat_data[0][0] == 1:
-            #     print('Attempting to play C.')
-            #     bsp.play_c()
+        pprint(ps4.hat_data)
+        pprint(ps4.button_data)
 
         x1 = max(round(64 + (ps4.axis_data[0] * 63.5)), 1) - 1
         y1 = max(round(64 + (-ps4.axis_data[1] * 63.5)), 1) - 1
         x2 = max(round(64 + (ps4.axis_data[2] * 63.5)), 1) - 1
         y2 = max(round(64 + (-ps4.axis_data[3] * 63.5)), 1) - 1
 
-        print('attempting to update output')
-
-        bsp.updateAxes({0: x1, 1: y1, 2: x2, 3: y2})
-        bsp.updateOutput()
+        bsp.update_axis_output({0: x1, 1: y1, 2: x2, 3: y2})
+        bsp.send_gate_output(ps4.hat_data)
 
         asyncio.get_event_loop().stop()
 
