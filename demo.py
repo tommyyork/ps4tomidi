@@ -15,6 +15,7 @@ def handle_ps4_events():
         event = pygame.event.wait()
         axis_change = False
         button_change = False
+        button_to_change = 0
         on = False
 
         # pprint(event)
@@ -24,10 +25,12 @@ def handle_ps4_events():
             axis_change = True
         elif event.type == pygame.JOYBUTTONDOWN and ps4.button_data[event.button] is False:
             ps4.button_data[event.button] = True
+            button_to_change = event.button
             button_change = True
             on = True
         elif event.type == pygame.JOYBUTTONUP and ps4.button_data[event.button] is True:
             ps4.button_data[event.button] = False
+            button_to_change = event.button
             button_change = True
             on = False
         # elif event.type == pygame.JOYHATMOTION and ps4.hat_data != event.value:
@@ -45,7 +48,7 @@ def handle_ps4_events():
 
             bsp.update_axis_output({0: x1, 1: y1, 2: x2, 3: y2})
         elif button_change is True:
-            bsp.send_gate_output(ps4.button_data, on)
+            bsp.send_gate_output(button_to_change, on)
 
         asyncio.get_event_loop().stop()
 

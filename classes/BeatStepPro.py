@@ -27,14 +27,14 @@ class BeatStepPro(object):
         self.midiout.send_message(channel_a_note_off)
         self.midiout.send_message(channel_b_note_off)
 
-    def send_gate_output(self, buttons, on):
-        if buttons[4] is True:
+    def send_gate_output(self, button, on):
+        if button == 4:
             note = 36
-        elif buttons[6] is True:
+        elif button == 6:
             note = 37
-        elif buttons[5] is True:
+        elif button == 5:
             note = 38
-        elif buttons[7] is True:
+        elif button == 7:
             note = 39
         else:
             note = 0
@@ -43,13 +43,6 @@ class BeatStepPro(object):
             gate_channel_note_on = [0x92, note, 64]
             self.midiout.send_message(gate_channel_note_on)
         elif on is False:
-            gate_channel_note_off_1 = [0x82, 36, 64]
-            gate_channel_note_off_2 = [0x82, 37, 64]
-            gate_channel_note_off_3 = [0x82, 38, 64]
-            gate_channel_note_off_4 = [0x82, 39, 64]
-            self.midiout.send_message(gate_channel_note_off_1)
-            self.midiout.send_message(gate_channel_note_off_2)
-            self.midiout.send_message(gate_channel_note_off_3)
-            self.midiout.send_message(gate_channel_note_off_4)
-
+            gate_channel_note_off = [0x82, note, 64]
+            self.midiout.send_message(gate_channel_note_off)
 
