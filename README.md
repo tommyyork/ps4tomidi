@@ -5,4 +5,4 @@ Currently set up to send pitch/velocity CV on channels 1 and 2 for the left and 
 
 Should be able to `pip install` then just `python demo.py`. It'll ask you what midi interface to use, then you can go from there.
 
-Helped by this cool Euclidean Rhythm project from [OctoEuclid](https://github.com/rupa/octoeuclid) and this Python / PS4 controller [class](https://gist.github.com/claymcleod/028386b860b75e4f5472) from [claymcleod](https://gist.github.com/claymcleod).
+Inspired by + incorporated some work from this cool Euclidean Rhythm / BeatStepPro project by [OctoEuclid](https://github.com/rupa/octoeuclid) and this Python / PS4 controller [class](https://gist.github.com/claymcleod/028386b860b75e4f5472) from [claymcleod](https://gist.github.com/claymcleod).
