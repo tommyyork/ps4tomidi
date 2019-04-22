@@ -1,9 +1,11 @@
 import asyncio
+from tkinter import *
 
 import pygame
 
 from classes import BeatStepPro
 from classes import PS4Controller
+from classes import Window
 
 ps4 = PS4Controller.PS4Controller()
 bsp = BeatStepPro.BeatStepPro()
@@ -56,4 +58,16 @@ async def main():
 
 
 if __name__ == "__main__":
+    root = Tk()
+    app = Window.Window(root)
+
+    # set window title
+    root.wm_title("ps4tomidi")
+
+    # show window
+    root.mainloop()
+
     asyncio.run(main())
+
+
+
