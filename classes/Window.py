@@ -1,4 +1,6 @@
 import tkinter as tk
+from functools import partial
+from pprint import pprint
 
 
 class Window(tk.Frame):
@@ -11,7 +13,6 @@ class Window(tk.Frame):
     }
 
     joystick_assignments = {}
-
     menus = {}
     labels = {}
 
@@ -32,6 +33,10 @@ class Window(tk.Frame):
             self.labels[val] = tk.Label(master, text=val)
             self.labels[val].grid(column=0, row=idx)
 
+            self.joystick_assignments[val].trace('w', partial(self.change_dropdown, val, self.joystick_assignments[val]))
+
         button = tk.Button(master, text="QUIT", command=master.quit)
         button.grid()
 
+    def change_dropdown(self, val, joystick_assignment, *args):
+        print('Assignment changed for', val, joystick_assignment.get())
