@@ -60,11 +60,7 @@ async def main():
 if __name__ == "__main__":
     root = Tk()
     app = Window.Window(root)
-
-    # set window title
     root.wm_title("ps4tomidi")
-
-    # show window
     root.mainloop()
 
     asyncio.run(main())
