@@ -72,36 +72,30 @@ def handle_ps4_events():
         asyncio.get_event_loop().stop()
 
 
+async def updater(tk_root, interval_time=.2):
+    while True:
+        print('updater run')
+        # tk_root.update_idletasks()
+        tk_root.update()
+        # tk_root.mainloop()
+        await asyncio.sleep(interval_time)
 
-async def main():
+
+async def main(tk_root):
     ps4.init()
 
-    # asyncio.create_task(handle_ps4_events())
-#     asyncio.create_task(updater())
-#
-#
+    # asyncio.create_task(updater(tk_root))
+    asyncio.create_task(handle_ps4_events())
+    threading.Thread.__init__(tk_root.mainloop())
+    # asyncio.run()
+    # threading.Thread.__init__(handle_ps4_events())
 
-
-async def updater(root=Tk(), interval_time=.2):
-    root.update_idletasks()
-    root.update()
-    await asyncio.sleep(interval_time)
 
 
 if __name__ == "__main__":
     root = Tk()
-    root.wm_title("ps4tomidi")
+    print('root = Tk()')
     app = Window.Window(root)
+    root.wm_title("ps4tomidi")
 
-
-    def _run(loop):
-        asyncio.set_event_loop(loop)
-        loop.run_forever()
-
-
-    ioloop = asyncio.new_event_loop()
-    asyncio.create_task(handle_ps4_events())
-    t = threading.Thread(target=partial(_run, ioloop))
-    t.daemon = True  # won't hang app when it closes
-
-
+    asyncio.run(main(root))

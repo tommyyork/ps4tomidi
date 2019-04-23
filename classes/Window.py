@@ -38,6 +38,8 @@ class Window(tk.Frame):
     labels = {}
 
     def __init__(self, master=None):
+        print('window __init__')
+
         tk.Frame.__init__(self, master)
         self.master = master
         self.frame = tk.Frame(self.master)
