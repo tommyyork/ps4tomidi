@@ -1,5 +1,6 @@
 import asyncio
 from tkinter import *
+import logging
 
 import pygame
 
@@ -10,11 +11,16 @@ from classes import Window
 ps4 = PS4Controller.PS4Controller()
 bsp = BeatStepPro.BeatStepPro()
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s,%(msecs)d %(levelname)s: %(message)s',
+    datefmt='%H:%M:%S',
+)
+
 
 def handle_ps4_events():
     while True:
         event = pygame.event.wait()
-
         axis_change = False
 
         button_change = False
@@ -38,13 +44,23 @@ def handle_ps4_events():
         #     ps4.hat_data[event.hat] = event.value
         #     hat_change = True
 
-        if axis_change is True:
-            x1 = max(round(64 + (ps4.axis_data[0] * 63.5)), 1) - 1
-            y1 = max(round(64 + (-ps4.axis_data[1] * 63.5)), 1) - 1
-            x2 = max(round(64 + (ps4.axis_data[2] * 63.5)), 1) - 1
-            y2 = max(round(64 + (-ps4.axis_data[3] * 63.5)), 1) - 1
+        def round_axis_data(axis_float):
+            return max(round(64 + (axis_float * 63.5)), 1) - 1
 
-            bsp.update_axis_output({0: x1, 1: y1, 2: x2, 3: y2})
+        if axis_change is True:
+            axis_values = {
+                'Joy 1 X': round_axis_data(ps4.axis_data[0]),
+                'Joy 1 Y': round_axis_data(-ps4.axis_data[1]),
+                'Joy 2 X': round_axis_data(ps4.axis_data[2]),
+                'Joy 2 Y': round_axis_data(-ps4.axis_data[3] * 63.5)
+            }
+            bsp.update_axis_output({
+                0: Window.joystick_assignments[axis_values['Joy 1 X']],
+                1: Window.joystick_assignments[axis_values['Joy 1 Y']],
+                2: Window.joystick_assignments[axis_values['Joy 2 X']],
+                3: Window.joystick_assignments[axis_values['Joy 2 Y']]
+            })
+            print('axis_change')
         elif button_change is True:
             bsp.send_gate_output(button_to_change, button_on)
 

@@ -13,6 +13,7 @@ class PS4Controller(object):
     hat_data = None
 
     def init(self):
+        print('PS4Controller init')
         """Initialize the joystick components"""
 
         pygame.init()
