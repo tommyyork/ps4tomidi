@@ -3,6 +3,25 @@ from rtmidi.midiutil import open_midiport
 
 
 class BeatStepPro(object):
+    channels = {
+        'Channel A - Pitch': {
+            'midi_channel': 0x90,
+            'output_value': 64,
+        },
+        'Channel A - Velocity': {
+            'midi_channel': 0x90,
+            'output_value': 64,
+        },
+        'Channel B - Pitch': {
+            'midi_channel': 0x91,
+            'output_value': 64,
+        },
+        'Channel B - Velocity': {
+            'midi_channel': 0x91,
+            'output_value': 64,
+        }
+    }
+
     def __init__(self):
         self.midiout, self.port_out_name = open_midiport(
             -1,

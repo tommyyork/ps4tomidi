@@ -12,6 +12,13 @@ class PS4Controller(object):
     button_data = None
     hat_data = None
 
+    joystick_assignments = {
+        'Joy 1 X': 'Channel A - Pitch',
+        'Joy 1 Y': 'Channel A - Velocity',
+        'Joy 2 X': 'Channel B - Pitch',
+        'Joy 2 Y': 'Channel B - Velocity'
+    }
+
     def init(self):
         print('PS4Controller init')
         """Initialize the joystick components"""
