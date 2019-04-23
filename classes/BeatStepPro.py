@@ -1,6 +1,5 @@
 import time
 from rtmidi.midiutil import open_midiport
-from pprint import pprint
 
 
 class BeatStepPro(object):
@@ -12,12 +11,12 @@ class BeatStepPro(object):
             port_name='bsp output_port'
         )
 
-    def update_axis_output(self, axes):
-        pprint(axes)
-        channel_a_note_on = [0x90, axes[0], axes[1]]
-        channel_b_note_on = [0x91, axes[2], axes[3]]
-        self.midiout.send_message(channel_a_note_on)
-        self.midiout.send_message(channel_b_note_on)
+    def updateOutput(self, axes):
+        channelANoteOn = [0x90, axes[0], axes[1]]
+        channelBNoteOn = [0x91, axes[2], axes[3]]
+        self.midiout.send_message(channelANoteOn)
+        self.midiout.send_message(channelBNoteOn)
+        print('sending midi messages: ', channelANoteOn, channelBNoteOn)
 
         time.sleep(.01)
 
