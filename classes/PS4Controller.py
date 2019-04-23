@@ -35,3 +35,4 @@ class PS4Controller(object):
             self.hat_data = {}
             for i in range(self.controller.get_numhats()):
                 self.hat_data[i] = (0, 0)
+
