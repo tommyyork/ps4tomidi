@@ -35,7 +35,7 @@ class BeatStepPro(object):
         channelBNoteOn = [0x91, axes[2], axes[3]]
         self.midiout.send_message(channelANoteOn)
         self.midiout.send_message(channelBNoteOn)
-        print('sending midi messages: ', channelANoteOn, channelBNoteOn)
+        print('sending midi CV message:', channelANoteOn, channelBNoteOn)
 
         time.sleep(.01)
 
@@ -46,6 +46,9 @@ class BeatStepPro(object):
         self.midiout.send_message(channel_b_note_off)
 
     def send_gate_output(self, button, on):
+
+        print('send_gate_output called')
+
         if button == 4:
             note = 36
         elif button == 6:
@@ -59,8 +62,10 @@ class BeatStepPro(object):
 
         if on is True:
             gate_channel_note_on = [0x92, note, 64]
+            print('sending midi gate messages:', gate_channel_note_on)
             self.midiout.send_message(gate_channel_note_on)
         elif on is False:
             gate_channel_note_off = [0x82, note, 64]
+            print('sending midi gate messages:', gate_channel_note_off)
             self.midiout.send_message(gate_channel_note_off)
 
